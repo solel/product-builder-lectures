@@ -1,14 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div class="container">
+        <h1>Habit Tracker</h1>
+
+        <div class="add-habit">
+            <input type="text" id="new-habit-input" placeholder="새 습관 추가">
+            <button id="add-habit-btn">추가</button>
+        </div>
+
+        <div class="calendar-nav">
+            <button id="prev-day-btn">&lt;</button>
+            <span id="current-date"></span>
+            <button id="next-day-btn">&gt;</button>
+        </div>
+
+        <div class="habit-list" id="habit-list">
+            <!-- Habits will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
