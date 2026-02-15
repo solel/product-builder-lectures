@@ -9,25 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let habits = [];
     let selectedDate = new Date(); // Tracks the date currently being viewed
 
-    // Pastel colors for habit items
+    // Refined, harmonious pastel colors for habit items
     const pastelColors = [
-        '#FFD1DC', // Light Pink
-        '#FFABAB', // Light Red
-        '#FFC3A0', // Peach
-        '#FF677D', // Coral
-        '#D4A5A5', // Rosy Brown
-        '#FFD700', // Gold
-        '#C6E2E9', // Powder Blue
-        '#ADD8E6', // Light Blue
-        '#87CEEB', // Sky Blue
-        '#B0E0E6', // Powder Blue (again, to have more options)
-        '#C1E1C1', // Light Green
-        '#A1D9D9', // Light Cyan
-        '#BFEABC', // Light Mint
-        '#E0BBE4', // Lavender
-        '#957DAD', // Medium Purple
-        '#D291BC', // Orchid
-        '#FFCCE5'  // Pinkish White
+        '#FFEBEE', // Very Light Red/Pink (from Material Design)
+        '#E3F2FD', // Very Light Blue
+        '#E8F5E9', // Very Light Green
+        '#FFF3E0', // Very Light Orange
+        '#F3E5F5', // Very Light Purple
+        '#EFEBE9', // Light Brown/Grey
+        '#E0F2F7', // Another Light Blue
+        '#FCE4EC', // Another Light Pink
+        '#F1F8E9', // Another Light Green
+        '#FFFDE7', // Creamy Yellow
+        '#EDE7F6', // Light Lavender
+        '#D7CCC8', // Light Greyish Brown
     ];
 
     // --- Helper Functions ---
@@ -68,8 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Assign pastel background color
             const color = pastelColors[index % pastelColors.length];
             habitItem.style.backgroundColor = color;
-            // Also set border color for better contrast
-            habitItem.style.borderColor = color.replace(/(\d+)/g, (match) => Math.max(0, parseInt(match) - 20)); // Darker border
+            
+            // Set border color for better contrast, slightly darker than background
+            // Simple method: darken a bit, or use a predefined darker shade
+            const darkColor = darkenColor(color, 10); // Darken by 10%
+            habitItem.style.borderColor = darkColor;
 
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
                 habitItem.classList.add('completed');
@@ -85,13 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Change button color based on completion status
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
-                completeButton.style.backgroundColor = '#f44336'; // Red for 'Mark Incomplete'
-                completeButton.style.borderColor = '#d32f2f'; // Darker red border
-            } else {
-                completeButton.style.backgroundColor = '#2196F3'; // Blue for 'Complete'
-                completeButton.style.borderColor = '#1976D2'; // Darker blue border
+                completeButton.classList.add('mark-completed'); // Apply class for styling
             }
-
 
             completeButton.addEventListener('click', () => {
                 toggleHabitCompletion(habit.id, formattedSelectedDate);
@@ -101,6 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
             habitItem.appendChild(completeButton);
             habitList.appendChild(habitItem);
         });
+    }
+
+    // Helper function to darken a hex color (simple version)
+    function darkenColor(hex, percent) {
+        let f = parseInt(hex.slice(1), 16),
+            t = percent < 0 ? 0 : 255,
+            p = percent < 0 ? percent * -1 : percent,
+            R = f >> 16,
+            G = (f >> 8) & 0x00ff,
+            B = f & 0x0000ff;
+        return "#" + (
+            0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+            (Math.round((t - G) * p) + G) * 0x100 +
+            (Math.round((t - B) * p) + B)
+        ).toString(16).slice(1);
     }
 
     function addHabit(name) {

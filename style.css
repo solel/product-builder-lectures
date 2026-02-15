@@ -1,27 +1,33 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5; /* Softer, modern light grey background */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to top for better content flow */
+    align-items: flex-start;
     min-height: 100vh;
-    margin: 20px; /* Add some margin around the container */
+    margin: 0; /* Remove default body margin */
+    padding: 20px;
     color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
     background-color: #ffffff;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
     width: 100%;
-    max-width: 500px;
+    max-width: 550px; /* Slightly wider container */
     text-align: center;
+    box-sizing: border-box; /* Include padding in width */
 }
 
 h1 {
-    color: #4CAF50;
-    margin-bottom: 25px;
+    color: #4CAF50; /* Keep a pleasant green for the main title */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 600;
 }
 
 .add-habit {
@@ -32,118 +38,139 @@ h1 {
 
 .add-habit input[type="text"] {
     flex-grow: 1;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
+    padding: 14px; /* Larger padding */
+    border: 1px solid #c0c0c0; /* Softer border color */
+    border-radius: 8px; /* More rounded input */
+    font-size: 1.1em;
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .add-habit input[type="text"]:focus {
     border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); /* Soft focus shadow */
 }
 
 .add-habit button {
-    padding: 12px 20px;
+    padding: 14px 22px; /* Larger padding */
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* More rounded button */
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .add-habit button:hover {
-    background-color: #45a049;
+    background-color: #43A047; /* Slightly darker green */
+    transform: translateY(-1px); /* Subtle lift effect */
 }
 
 .calendar-nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
+    gap: 20px; /* More space around date */
+    margin-bottom: 30px;
+    background-color: #f7f7f7; /* Light background for nav */
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
 }
 
 .calendar-nav button {
-    background-color: #8B4513; /* SaddleBrown */
+    background-color: #616161; /* Dark grey for a modern, neutral look */
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 10px 18px; /* Slightly larger buttons */
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s;
+    font-size: 1.2em;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .calendar-nav button:hover {
-    background-color: #A0522D; /* Sienna */
+    background-color: #424242; /* Darker grey */
+    transform: translateY(-1px);
 }
 
 #current-date {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
+    font-size: 1.4em; /* Larger date text */
+    font-weight: 600;
+    color: #555;
+    min-width: 120px; /* Ensure consistent width */
+}
+
+.habit-list {
+    margin-top: 20px;
 }
 
 .habit-item {
-    /* background-color will be set by JavaScript */
-    /* border will be set by JavaScript */
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
+    /* background-color and border set by JavaScript */
+    padding: 18px 20px; /* Increased padding */
+    margin-bottom: 12px; /* More space between items */
+    border-radius: 10px; /* Rounded corners */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    border: 1px solid transparent; /* Keep a transparent border to maintain structure */
+    transition: all 0.3s ease-in-out; /* Smooth transitions for all properties */
+    border: 1px solid transparent; /* Placeholder for JS-set border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
 }
 
 .habit-item.completed {
-    /* background-color will be handled by JavaScript */
-    border-color: #4CAF50;
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+    /* background-color handled by JS */
+    border-color: #A5D6A7; /* Light green border for completed */
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1); /* Lighter shadow */
+    opacity: 0.9; /* Slightly dim completed habits */
 }
 
 .habit-item span {
-    font-size: 1.1em;
+    font-size: 1.15em; /* Slightly larger text */
     flex-grow: 1;
     text-align: left;
-    color: #555;
+    color: #333; /* Darker text for readability */
+    font-weight: 500;
 }
 
 .habit-item.completed span {
     text-decoration: line-through;
-    color: #4CAF50;
+    color: #66BB6A; /* Accent green for completed text */
 }
 
 .habit-item .complete-btn {
-    padding: 8px 15px;
-    background-color: #4CAF50; /* Changed to green theme */
+    padding: 10px 18px; /* Larger button */
+    background-color: #64B5F6; /* Soft blue for 'Complete' */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-left: 15px; /* Space between name and button */
 }
 
 .habit-item .complete-btn:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #42A5F5; /* Darker blue */
+    transform: translateY(-1px);
 }
 
 .habit-item .complete-btn.mark-completed {
-    background-color: #f44336; /* Red for 'Mark Incomplete' */
+    background-color: #EF5350; /* Soft red for 'Mark Incomplete' */
 }
 
 .habit-item .complete-btn.mark-completed:hover {
-    background-color: #da190b;
+    background-color: #E53935; /* Darker red */
 }
 
 .no-habits-message {
     color: #888;
     font-style: italic;
-    margin-top: 20px;
+    margin-top: 25px;
+    font-size: 1.1em;
 }
