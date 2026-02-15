@@ -5,25 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentDateSpan = document.getElementById('current-date');
     const prevDayBtn = document.getElementById('prev-day-btn');
     const nextDayBtn = document.getElementById('next-day-btn');
+    const calendarGrid = document.getElementById('calendar-grid');
 
     let habits = [];
     let selectedDate = new Date(); // Tracks the date currently being viewed
-
-    // Refined, harmonious pastel colors for habit items
-    const pastelColors = [
-        '#FFEBEE', // Very Light Red/Pink (from Material Design)
-        '#E3F2FD', // Very Light Blue
-        '#E8F5E9', // Very Light Green
-        '#FFF3E0', // Very Light Orange
-        '#F3E5F5', // Very Light Purple
-        '#EFEBE9', // Light Brown/Grey
-        '#E0F2F7', // Another Light Blue
-        '#FCE4EC', // Another Light Pink
-        '#F1F8E9', // Another Light Green
-        '#FFFDE7', // Creamy Yellow
-        '#EDE7F6', // Light Lavender
-        '#D7CCC8', // Light Greyish Brown
-    ];
 
     // --- Helper Functions ---
 
@@ -56,32 +41,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formattedSelectedDate = getFormattedDate(selectedDate);
 
-        habits.forEach((habit, index) => {
+        habits.forEach((habit) => {
             const habitItem = document.createElement('div');
             habitItem.classList.add('habit-item');
             
-            // Assign pastel background color
-            const color = pastelColors[index % pastelColors.length];
-            habitItem.style.backgroundColor = color;
-            
-            // Set border color for better contrast, slightly darker than background
-            // Simple method: darken a bit, or use a predefined darker shade
-            const darkColor = darkenColor(color, 10); // Darken by 10%
-            habitItem.style.borderColor = darkColor;
-
+            // Background and border now handled by CSS for unified look
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
                 habitItem.classList.add('completed');
             }
 
             const habitName = document.createElement('span');
             habitName.textContent = habit.name;
-            habitName.style.color = '#333'; // Ensure readable text against pastel background
+            // Text color now handled by CSS
+            // habitName.style.color = '#333'; 
 
             const completeButton = document.createElement('button');
             completeButton.classList.add('complete-btn');
             completeButton.textContent = (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) ? '미완료' : '완료';
 
-            // Change button color based on completion status
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
                 completeButton.classList.add('mark-completed'); // Apply class for styling
             }
@@ -96,19 +73,75 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Helper function to darken a hex color (simple version)
-    function darkenColor(hex, percent) {
-        let f = parseInt(hex.slice(1), 16),
-            t = percent < 0 ? 0 : 255,
-            p = percent < 0 ? percent * -1 : percent,
-            R = f >> 16,
-            G = (f >> 8) & 0x00ff,
-            B = f & 0x0000ff;
-        return "#" + (
-            0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
-            (Math.round((t - G) * p) + G) * 0x100 +
-            (Math.round((t - B) * p) + B)
-        ).toString(16).slice(1);
+    function renderCalendar() {
+        calendarGrid.innerHTML = ''; // Clear current calendar grid
+
+        if (habits.length === 0) {
+            // calendarGrid.innerHTML = '<p class="no-habits-message">습관이 없어 진행 상황을 표시할 수 없습니다.</p>';
+            return; // Don't render empty grid, just empty habit list message is enough
+        }
+
+        const today = new Date();
+        const numDays = 90; // Show last 90 days
+        const dates = [];
+
+        // Generate dates for the last numDays
+        for (let i = numDays - 1; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(today.getDate() - i);
+            dates.push(d);
+        }
+
+        dates.forEach(date => {
+            const cell = document.createElement('div');
+            cell.classList.add('calendar-cell');
+            const formattedDate = getFormattedDate(date);
+
+            let completedHabitsCount = 0;
+            let tooltipContent = `${formattedDate}\n`;
+            let completedHabitNames = [];
+            let incompleteHabitNames = [];
+
+            habits.forEach(habit => {
+                if (habit.dailyRecords && habit.dailyRecords[formattedDate]) {
+                    completedHabitsCount++;
+                    completedHabitNames.push(habit.name);
+                } else {
+                    incompleteHabitNames.push(habit.name);
+                }
+            });
+
+            const completionPercentage = habits.length > 0 ? (completedHabitsCount / habits.length) : 0;
+            let level = 0;
+            if (completionPercentage === 1) {
+                level = 4; // All habits completed
+            } else if (completionPercentage >= 0.75) {
+                level = 3;
+            } else if (completionPercentage >= 0.5) {
+                level = 2;
+            } else if (completionPercentage > 0) {
+                level = 1; // Some habits completed
+            }
+            cell.classList.add(`level-${level}`);
+
+            if (completedHabitNames.length > 0) {
+                tooltipContent += `완료: ${completedHabitNames.join(', ')}\n`;
+            }
+            if (incompleteHabitNames.length > 0) {
+                tooltipContent += `미완료: ${incompleteHabitNames.join(', ')}`;
+            }
+            if (completedHabitNames.length === 0 && incompleteHabitNames.length === 0) {
+                 tooltipContent += `습관 없음`;
+            } else if (completedHabitNames.length === 0 && incompleteHabitNames.length > 0) {
+                tooltipContent = `${formattedDate}\n모두 미완료`;
+            } else if (completedHabitNames.length > 0 && incompleteHabitNames.length === 0) {
+                tooltipContent = `${formattedDate}\n모두 완료`;
+            }
+
+
+            cell.setAttribute('data-tooltip', tooltipContent);
+            calendarGrid.appendChild(cell);
+        });
     }
 
     function addHabit(name) {
@@ -125,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         habits.push(newHabit);
         saveHabits();
         newHabitInput.value = ''; // Clear input field
-        renderHabits();
+        renderAll(); // Re-render everything
     }
 
     function toggleHabitCompletion(habitId, date) {
@@ -138,8 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Toggle the completion status for the selected date
             habit.dailyRecords[date] = !habit.dailyRecords[date];
             saveHabits();
-            renderHabits(); // Re-render to update UI
+            renderAll(); // Re-render everything
         }
+    }
+
+    function renderAll() {
+        displayDate();
+        renderHabits();
+        renderCalendar();
     }
 
     // --- Event Listeners ---
@@ -156,18 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prevDayBtn.addEventListener('click', () => {
         selectedDate.setDate(selectedDate.getDate() - 1);
-        displayDate();
-        renderHabits();
+        renderAll();
     });
 
     nextDayBtn.addEventListener('click', () => {
         selectedDate.setDate(selectedDate.getDate() + 1);
-        displayDate();
-        renderHabits();
+        renderAll();
     });
 
     // --- Initialization ---
     loadHabits();
-    displayDate();
-    renderHabits();
+    renderAll();
 });
