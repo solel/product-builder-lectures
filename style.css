@@ -68,7 +68,7 @@ h1 {
 }
 
 .calendar-nav button {
-    background-color: #008CBA;
+    background-color: #8B4513; /* SaddleBrown */
     color: white;
     border: none;
     padding: 8px 15px;
@@ -79,7 +79,7 @@ h1 {
 }
 
 .calendar-nav button:hover {
-    background-color: #007bb5;
+    background-color: #A0522D; /* Sienna */
 }
 
 #current-date {
@@ -89,8 +89,8 @@ h1 {
 }
 
 .habit-item {
-    background-color: #f9f9f9;
-    border: 1px solid #eee;
+    /* background-color will be set by JavaScript */
+    /* border will be set by JavaScript */
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -98,10 +98,11 @@ h1 {
     justify-content: space-between;
     align-items: center;
     transition: background-color 0.3s, box-shadow 0.3s;
+    border: 1px solid transparent; /* Keep a transparent border to maintain structure */
 }
 
 .habit-item.completed {
-    background-color: #e6ffe6; /* Light green for completed habits */
+    /* background-color will be handled by JavaScript */
     border-color: #4CAF50;
     box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
 }
@@ -120,7 +121,7 @@ h1 {
 
 .habit-item .complete-btn {
     padding: 8px 15px;
-    background-color: #2196F3;
+    background-color: #4CAF50; /* Changed to green theme */
     color: white;
     border: none;
     border-radius: 5px;
@@ -130,7 +131,7 @@ h1 {
 }
 
 .habit-item .complete-btn:hover {
-    background-color: #0b7dda;
+    background-color: #45a049; /* Darker green on hover */
 }
 
 .habit-item .complete-btn.mark-completed {

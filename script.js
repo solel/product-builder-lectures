@@ -9,6 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let habits = [];
     let selectedDate = new Date(); // Tracks the date currently being viewed
 
+    // Pastel colors for habit items
+    const pastelColors = [
+        '#FFD1DC', // Light Pink
+        '#FFABAB', // Light Red
+        '#FFC3A0', // Peach
+        '#FF677D', // Coral
+        '#D4A5A5', // Rosy Brown
+        '#FFD700', // Gold
+        '#C6E2E9', // Powder Blue
+        '#ADD8E6', // Light Blue
+        '#87CEEB', // Sky Blue
+        '#B0E0E6', // Powder Blue (again, to have more options)
+        '#C1E1C1', // Light Green
+        '#A1D9D9', // Light Cyan
+        '#BFEABC', // Light Mint
+        '#E0BBE4', // Lavender
+        '#957DAD', // Medium Purple
+        '#D291BC', // Orchid
+        '#FFCCE5'  // Pinkish White
+    ];
+
     // --- Helper Functions ---
 
     function getFormattedDate(date) {
@@ -40,23 +61,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formattedSelectedDate = getFormattedDate(selectedDate);
 
-        habits.forEach(habit => {
+        habits.forEach((habit, index) => {
             const habitItem = document.createElement('div');
             habitItem.classList.add('habit-item');
+            
+            // Assign pastel background color
+            const color = pastelColors[index % pastelColors.length];
+            habitItem.style.backgroundColor = color;
+            // Also set border color for better contrast
+            habitItem.style.borderColor = color.replace(/(\d+)/g, (match) => Math.max(0, parseInt(match) - 20)); // Darker border
+
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
                 habitItem.classList.add('completed');
             }
 
             const habitName = document.createElement('span');
             habitName.textContent = habit.name;
+            habitName.style.color = '#333'; // Ensure readable text against pastel background
 
             const completeButton = document.createElement('button');
             completeButton.classList.add('complete-btn');
             completeButton.textContent = (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) ? '미완료' : '완료';
 
+            // Change button color based on completion status
             if (habit.dailyRecords && habit.dailyRecords[formattedSelectedDate]) {
-                completeButton.classList.add('mark-completed'); // Style for 'Mark Incomplete'
+                completeButton.style.backgroundColor = '#f44336'; // Red for 'Mark Incomplete'
+                completeButton.style.borderColor = '#d32f2f'; // Darker red border
+            } else {
+                completeButton.style.backgroundColor = '#2196F3'; // Blue for 'Complete'
+                completeButton.style.borderColor = '#1976D2'; // Darker blue border
             }
+
 
             completeButton.addEventListener('click', () => {
                 toggleHabitCompletion(habit.id, formattedSelectedDate);
