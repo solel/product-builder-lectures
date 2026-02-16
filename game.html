@@ -41,17 +41,33 @@
             margin-bottom: 30px;
         }
 
-        #webcam-container {
-            border: 2px solid #ddd;
+        .upload-area {
+            border: 2px dashed #ccc;
             border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
             margin-bottom: 20px;
-            overflow: hidden; /* Ensures the webcam feed stays within bounds */
+            transition: border-color 0.3s ease;
         }
 
-        #webcam-container canvas {
-            display: block; /* Remove extra space below canvas */
-            width: 100% !important; /* Make canvas responsive within its container */
-            height: auto !important;
+        .upload-area.highlight {
+            border-color: #4CAF50;
+        }
+
+        .upload-area p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #777;
+        }
+
+        #uploaded-image {
+            max-width: 100%;
+            max-height: 200px; /* Limit height for display */
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            display: none; /* Hidden by default */
         }
 
         #label-container div {
@@ -96,7 +112,13 @@
         <h1>물건 맞추기 게임</h1>
         <div class="game-status" id="game-status">게임을 시작하세요!</div>
         <div class="target-object" id="target-object"></div>
-        <div id="webcam-container"></div>
+        
+        <input type="file" id="file-input" accept="image/*" hidden>
+        <div id="drop-area" class="upload-area">
+            <p>여기에 이미지를 드래그 앤 드롭하거나 클릭하여 업로드</p>
+        </div>
+        <img id="uploaded-image" src="#" alt="업로드된 이미지">
+
         <div id="label-container"></div>
         <div class="game-controls">
             <button type="button" onclick="startGame()">새 게임 시작</button>
