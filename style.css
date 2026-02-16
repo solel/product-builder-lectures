@@ -258,12 +258,13 @@ h1 {
 /* Disqus Comments Styling */
 #disqus_thread {
     margin-top: 40px; /* Space above comments */
+    margin-bottom: 40px; /* Space below comments */
     padding: 25px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 800px; /* Wider than the main content container */
+    max-width: 550px; /* Match the main content container's max-width */
     margin-left: auto;
     margin-right: auto;
     text-align: left; /* Align text within disqus thread to left */
