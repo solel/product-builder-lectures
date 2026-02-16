@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+
+        .game-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .game-status {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .target-object {
+            font-size: 2em;
+            font-weight: 700;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+
+        #webcam-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden; /* Ensures the webcam feed stays within bounds */
+        }
+
+        #webcam-container canvas {
+            display: block; /* Remove extra space below canvas */
+            width: 100% !important; /* Make canvas responsive within its container */
+            height: auto !important;
+        }
+
+        #label-container div {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .game-controls button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .game-controls button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .game-message {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #E53935; /* Red for incorrect, will be green for correct */
+        }
+
+        .game-message.correct {
+            color: #4CAF50;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>물건 맞추기 게임</h1>
+        <div class="game-status" id="game-status">게임을 시작하세요!</div>
+        <div class="target-object" id="target-object"></div>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        <div class="game-controls">
+            <button type="button" onclick="startGame()">새 게임 시작</button>
+        </div>
+        <div class="game-message" id="game-message"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
